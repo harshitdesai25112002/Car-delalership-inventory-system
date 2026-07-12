@@ -33,3 +33,38 @@ htmlcov/
 .env.local
 .env.development
 .env.production
+
+# Python
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+venv/
+
+.env
+
+# MongoDB
+
+*.wt
+
+# VS Code
+
+.vscode/
+
+# React
+
+node_modules/
+
+dist/
+
+# Logs
+
+*.log
+
+# OS
+
+.DS_Store
+
+Thumbs.db
