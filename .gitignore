@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# VS Code
+.vscode/
+
+# Node
+node_modules/
+
+# React Build
+dist/
+
+# Logs
+*.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Python test cache
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Environment files
+.env.local
+.env.development
+.env.production
