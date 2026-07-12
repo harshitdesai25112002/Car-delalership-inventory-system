@@ -17,10 +17,15 @@ def register_user(user: UserRegister) -> dict:
         }
 
     # Create user document
+    role = "user"
+    if user.admin_code == "ADMIN123": 
+        role = "admin"
+        
     user_document = {
         "name": user.name,
         "email": user.email,
-        "password": hash_password(user.password)
+        "password": hash_password(user.password),
+        "role": role
     }
 
     users_collection.insert_one(user_document)
@@ -51,7 +56,8 @@ def login_user(user):
     token = create_access_token(
         {
             "sub": str(existing_user["_id"]),
-            "email": existing_user["email"]
+            "email": existing_user["email"],
+            "role": existing_user["role"]
         }
     )
 

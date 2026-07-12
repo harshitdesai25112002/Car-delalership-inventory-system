@@ -1,10 +1,11 @@
-from typing import Optional
-
 from bson import ObjectId
 from app.database.collections import vehicles_collection
 
 
-def add_vehicle(vehicle) -> dict:
+# -----------------------------
+# Add Vehicle
+# -----------------------------
+def add_vehicle(vehicle):
 
     vehicle_document = {
         "make": vehicle.make,
@@ -22,6 +23,9 @@ def add_vehicle(vehicle) -> dict:
     }
 
 
+# -----------------------------
+# Get All Vehicles
+# -----------------------------
 def get_all_vehicles():
 
     vehicles = []
@@ -34,6 +38,10 @@ def get_all_vehicles():
 
     return vehicles
 
+
+# -----------------------------
+# Update Vehicle
+# -----------------------------
 def update_vehicle(vehicle_id, vehicle):
 
     result = vehicles_collection.update_one(
@@ -49,9 +57,9 @@ def update_vehicle(vehicle_id, vehicle):
         }
     )
 
-    if result.modified_count == 0:
+    if result.matched_count == 0:
         return {
-            "message": "Vehicle not found or no changes made."
+            "message": "Vehicle not found."
         }
 
     return {
@@ -59,6 +67,9 @@ def update_vehicle(vehicle_id, vehicle):
     }
 
 
+# -----------------------------
+# Delete Vehicle
+# -----------------------------
 def delete_vehicle(vehicle_id):
 
     result = vehicles_collection.delete_one(
@@ -75,6 +86,9 @@ def delete_vehicle(vehicle_id):
     }
 
 
+# -----------------------------
+# Search Vehicles
+# -----------------------------
 def search_vehicles(
     make=None,
     model=None,
@@ -103,7 +117,6 @@ def search_vehicles(
             "$options": "i"
         }
 
-    # Price Range Search
     price_query = {}
 
     if min_price is not None:
@@ -122,3 +135,64 @@ def search_vehicles(
         vehicles.append(vehicle)
 
     return vehicles
+
+
+# -----------------------------
+# Purchase Vehicle
+# -----------------------------
+def purchase_vehicle(vehicle_id, quantity):
+
+    vehicle = vehicles_collection.find_one(
+        {"_id": ObjectId(vehicle_id)}
+    )
+
+    if not vehicle:
+        return {
+            "message": "Vehicle not found."
+        }
+
+    if vehicle["quantity"] < quantity:
+        return {
+            "message": "Insufficient stock."
+        }
+
+    vehicles_collection.update_one(
+        {"_id": ObjectId(vehicle_id)},
+        {
+            "$inc": {
+                "quantity": -quantity
+            }
+        }
+    )
+
+    return {
+        "message": "Vehicle purchased successfully."
+    }
+
+
+# -----------------------------
+# Restock Vehicle
+# -----------------------------
+def restock_vehicle(vehicle_id, quantity):
+
+    vehicle = vehicles_collection.find_one(
+        {"_id": ObjectId(vehicle_id)}
+    )
+
+    if not vehicle:
+        return {
+            "message": "Vehicle not found."
+        }
+
+    vehicles_collection.update_one(
+        {"_id": ObjectId(vehicle_id)},
+        {
+            "$inc": {
+                "quantity": quantity
+            }
+        }
+    )
+
+    return {
+        "message": "Vehicle restocked successfully."
+    }
