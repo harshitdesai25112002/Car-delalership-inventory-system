@@ -1,95 +1,223 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import API from "../api/axios";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  FaCarSide,
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import axios from "../api/axios";
 
 function Login() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-    const login = async (e) => {
+    if (!email || !password) {
+      toast.error("Please enter email and password");
+      return;
+    }
 
-        e.preventDefault();
+    try {
+      setLoading(true);
 
-        try {
+      const response = await axios.post("/auth/login", {
+        email,
+        password,
+      });
 
-            const response = await API.post("/auth/login", {
-                email,
-                password
-            });
+      localStorage.setItem("token", response.data.access_token);
 
-            localStorage.setItem(
-                "token",
-                response.data.access_token
-            );
+      toast.success("Login Successful");
 
-            alert("Login Successful");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 800);
+    } catch (error) {
+      toast.error(
+        error.response?.data?.detail ||
+          error.response?.data?.message ||
+          "Invalid Email or Password"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            navigate("/dashboard");
+  return (
+    <>
+      <div className="login-page">
 
-        } catch (error) {
+        <div className="overlay"></div>
 
-            alert(
-                error.response?.data?.message ||
-                "Login Failed"
-            );
+        <div className="login-wrapper">
 
-        }
+          {/* ================= LEFT SIDE ================= */}
 
-    };
+          <div className="hero-section">
 
-    return (
+            <div className="brand">
 
-        <div className="container mt-5">
+              <div className="brand-logo">
+                <FaCarSide />
+              </div>
 
-            <div className="row justify-content-center">
-
-                <div className="col-md-4">
-
-                    <div className="card p-4 shadow">
-
-                        <h3 className="text-center mb-4">
-                            Login
-                        </h3>
-
-                        <form onSubmit={login}>
-
-                            <input
-                                className="form-control mb-3"
-                                type="email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e)=>setEmail(e.target.value)}
-                            />
-
-                            <input
-                                className="form-control mb-3"
-                                type="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e)=>setPassword(e.target.value)}
-                            />
-
-                            <button
-                                className="btn btn-primary w-100"
-                            >
-                                Login
-                            </button>
-
-                        </form>
-
-                    </div>
-
-                </div>
+              <div>
+                <h1>DriveHub</h1>
+                <span>Premium Dealership Platform</span>
+              </div>
 
             </div>
 
+            <div className="hero-text">
+
+              <h2>
+                Premium Vehicle
+                <br />
+                Inventory
+                <br />
+                Management
+              </h2>
+
+              <p>
+                Manage inventory, monitor stock,
+                handle purchases and sales,
+                and grow your dealership with one
+                modern platform.
+              </p>
+
+            </div>
+
+          </div>
+
+          {/* ================= RIGHT SIDE ================= */}
+
+          <div className="login-card">
+
+            <h2>Welcome Back</h2>
+
+            <p className="subtitle">
+              Sign in to continue
+            </p>
+
+            <form onSubmit={handleLogin}>
+
+              <div className="input-group">
+
+                <FaEnvelope className="input-icon" />
+
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={email}
+                  onChange={(e) =>
+                    setEmail(e.target.value)
+                  }
+                  required
+                />
+
+              </div>
+
+              <div className="input-group">
+
+                <FaLock className="input-icon" />
+
+                <input
+                  type={
+                    showPassword
+                      ? "text"
+                      : "password"
+                  }
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) =>
+                    setPassword(e.target.value)
+                  }
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="eye-btn"
+                  onClick={() =>
+                    setShowPassword(!showPassword)
+                  }
+                >
+                  {showPassword ? (
+                    <FaEyeSlash />
+                  ) : (
+                    <FaEye />
+                  )}
+                </button>
+
+              </div>
+
+              <div className="options">
+
+                <label>
+
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={() =>
+                      setRememberMe(!rememberMe)
+                    }
+                  />
+
+                  Remember Me
+
+                </label>
+
+                <button
+                  type="button"
+                  className="forgot-password"
+                >
+                  Forgot Password?
+                </button>
+
+              </div>
+
+              <button
+                type="submit"
+                className="login-button"
+                disabled={loading}
+              >
+                {loading ? "Signing In..." : "Sign In"}
+              </button>
+
+              <div className="register-link">
+
+                Don't have an account?
+
+                <Link to="/register">
+                  Register
+                </Link>
+
+              </div>
+
+            </form>
+
+          </div>
+
         </div>
 
-    );
+      </div>
 
+      <ToastContainer
+        position="top-right"
+        theme="dark"
+      />
+    </>
+  );
 }
 
 export default Login;
