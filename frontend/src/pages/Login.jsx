@@ -20,41 +20,55 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
+
+    console.log("Login Button Clicked");
+
     e.preventDefault();
 
     if (!email || !password) {
-      toast.error("Please enter email and password");
-      return;
+        toast.error("Please enter email and password");
+        return;
     }
 
     try {
-      setLoading(true);
 
-      const response = await axios.post("/auth/login", {
-        email,
-        password,
-      });
+        setLoading(true);
 
-      localStorage.setItem("token", response.data.access_token);
+        console.log("Sending API Request");
 
-      toast.success("Login Successful");
+        const response = await axios.post("/auth/login", {
+            email,
+            password,
+        });
 
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 800);
+        console.log(response);
+
+        localStorage.setItem("token", response.data.access_token);
+
+        toast.success("Login Successful");
+
+        setTimeout(() => {
+            navigate("/dashboard");
+        }, 800);
+
     } catch (error) {
-      toast.error(
-        error.response?.data?.detail ||
-          error.response?.data?.message ||
-          "Invalid Email or Password"
-      );
+
+        console.log(error);
+
+        toast.error(
+            error.response?.data?.detail ||
+            error.response?.data?.message ||
+            "Invalid Email or Password"
+        );
+
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   return (
-    <>
+   <>
+    
       <div className="login-page">
 
         <div className="overlay"></div>
