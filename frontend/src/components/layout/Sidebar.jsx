@@ -1,52 +1,106 @@
 import {
-    FaCar,
-    FaChartPie,
-    FaUsers,
-    FaShoppingCart,
-    FaCog,
-    FaSignOutAlt
+  FaCarSide,
+  FaHome,
+  FaCar,
+  FaShoppingCart,
+  FaChartLine,
+  FaUsers,
+  FaCog,
+  FaChevronLeft,
+  FaChevronRight,
+  FaSignOutAlt,
 } from "react-icons/fa";
 
-function Sidebar(){
+import { NavLink } from "react-router-dom";
 
-    return(
+function Sidebar({ collapsed, toggleSidebar }) {
+  return (
+    <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
+      {/* Logo */}
 
-        <aside className="sidebar">
+      <div className="sidebar-header">
+        <div className="sidebar-logo">
+          <FaCarSide />
+        </div>
 
-            <div className="sidebar-logo">
+        {!collapsed && (
+          <div className="sidebar-brand">
+            <h2>DriveHub</h2>
 
-                <FaCar/>
+            <span>Inventory System</span>
+          </div>
+        )}
+      </div>
 
-                <h2>DriveHub</h2>
+      {/* Navigation */}
 
-            </div>
+      <nav className="sidebar-menu">
+        <NavLink
+          to="/dashboard/home"
+          className={({ isActive }) =>
+            isActive ? "menu-item active" : "menu-item"
+          }
+        >
+          <FaHome />
+          {!collapsed && <span>Dashboard</span>}
+        </NavLink>
 
-            <nav>
+        <NavLink
+          to="/dashboard/vehicles"
+          className={({ isActive }) =>
+            isActive ? "menu-item active" : "menu-item"
+          }
+        >
+          <FaCar />
+          {!collapsed && <span>Vehicles</span>}
+        </NavLink>
 
-                <a href="#">Dashboard</a>
+        <NavLink
+          to="/dashboard/purchase"
+          className={({ isActive }) =>
+            isActive ? "menu-item active" : "menu-item"
+          }
+        >
+          <FaShoppingCart />
+          {!collapsed && <span>Purchase</span>}
+        </NavLink>
 
-                <a href="#">Vehicles</a>
+        <NavLink
+          to="/dashboard/users"
+          className={({ isActive }) =>
+            isActive ? "menu-item active" : "menu-item"
+          }
+        >
+          <FaUsers />
+          {!collapsed && <span>Employees</span>}
+        </NavLink>
 
-                <a href="#">Purchase</a>
+        <NavLink
+          to="/dashboard/settings"
+          className={({ isActive }) =>
+            isActive ? "menu-item active" : "menu-item"
+          }
+        >
+          <FaCog />
+          {!collapsed && <span>Settings</span>}
+        </NavLink>
+      </nav>
 
-                <a href="#">Users</a>
+      {/* Footer */}
 
-                <a href="#">Settings</a>
+      <div className="sidebar-footer">
+        <button className="collapse-btn" onClick={toggleSidebar}>
+          {collapsed ? <FaChevronRight /> : <FaChevronLeft />}
+        </button>
 
-            </nav>
+        <button className="logout-btn">
+          <FaSignOutAlt />
 
-            <button className="logout-btn">
-
-                <FaSignOutAlt/>
-
-                Logout
-
-            </button>
-
-        </aside>
-
-    )
-
+          {!collapsed && <span>Logout</span>}
+        </button>
+      </div>
+    </aside>
+  );
 }
 
 export default Sidebar;

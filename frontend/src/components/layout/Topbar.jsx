@@ -1,30 +1,96 @@
-import { FaBell, FaUserCircle } from "react-icons/fa";
+import {
+    FaBars,
+    FaBell,
+    FaUserCircle,
+    FaChevronDown
+} from "react-icons/fa";
 
-function Topbar(){
+import { useLocation } from "react-router-dom";
 
-    return(
+function Topbar({ collapsed, toggleSidebar }) {
+
+    const location = useLocation();
+
+    const getPageTitle = () => {
+
+        const path = location.pathname;
+
+        if (path.includes("/dashboard/home")) return "Dashboard";
+
+        if (path.includes("/dashboard/vehicles")) return "Vehicles";
+
+        if (path.includes("/dashboard/purchase")) return "Purchase";
+
+        if (path.includes("/dashboard/users")) return "Employee Management";
+
+        if (path.includes("/dashboard/settings")) return "Settings";
+
+        return "Dashboard";
+
+    };
+
+    return (
 
         <header className="topbar">
 
-            <div>
+            {/* Left Section */}
 
-                <h2>Dashboard</h2>
+            <div className="topbar-left">
 
-                <p>Welcome Back 👋</p>
+                <button
+                    className="menu-toggle"
+                    onClick={toggleSidebar}
+                >
+
+                    <FaBars />
+
+                </button>
+
+                <div className="page-info">
+
+                    <h2>{getPageTitle()}</h2>
+
+                    <span>
+                        Welcome back to DriveHub
+                    </span>
+
+                </div>
 
             </div>
 
+            {/* Right Section */}
+
             <div className="topbar-right">
 
-                <FaBell/>
+                <button className="notification-btn">
 
-                <FaUserCircle/>
+                    <FaBell />
+
+                    <span className="notification-dot"></span>
+
+                </button>
+
+                <div className="profile-section">
+
+                    <FaUserCircle className="profile-avatar" />
+
+                    <div className="profile-info">
+
+                        <h4>Harshit Desai</h4>
+
+                        <span>Administrator</span>
+
+                    </div>
+
+                    <FaChevronDown className="profile-arrow" />
+
+                </div>
 
             </div>
 
         </header>
 
-    )
+    );
 
 }
 

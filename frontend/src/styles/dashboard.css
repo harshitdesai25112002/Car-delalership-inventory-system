@@ -1,0 +1,88 @@
+/* ===========================================================
+   DASHBOARD LAYOUT
+=========================================================== */
+
+.dashboard-layout{
+
+    display:flex;
+
+    min-height:100vh;
+
+    background:#071321;
+
+}
+
+/* ===========================================================
+   MAIN CONTENT
+=========================================================== */
+
+.dashboard-main{
+
+    flex:1;
+
+    margin-left:280px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-height:100vh;
+
+    transition:margin-left .35s ease;
+
+    background:
+        radial-gradient(circle at top right,
+            rgba(37,99,235,.12),
+            transparent 30%),
+
+        radial-gradient(circle at bottom left,
+            rgba(56,189,248,.08),
+            transparent 35%),
+
+        #071321;
+
+}
+
+.dashboard-main.collapsed{
+
+    margin-left:90px;
+
+}
+
+/* ===========================================================
+   PAGE CONTENT
+=========================================================== */
+
+.dashboard-content{
+
+    flex:1;
+
+    padding:28px 32px;
+
+    overflow-y:auto;
+
+}
+
+/* ===========================================================
+   SCROLLBAR
+=========================================================== */
+
+.dashboard-content::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.dashboard-content::-webkit-scrollbar-thumb{
+
+    background:rgba(255,255,255,.10);
+
+    border-radius:20px;
+
+}
+
+.dashboard-content::-webkit-scrollbar-track{
+
+    background:transparent;
+
+}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   FaCarSide,
   FaEnvelope,
@@ -208,15 +208,15 @@ function Login() {
                 {loading ? "Signing In..." : "Sign In"}
               </button>
 
-              <div className="register-link">
+<div className="login-footer">
 
-                Don't have an account?
+    <p>Authorized personnel only.</p>
 
-                <Link to="/register">
-                  Register
-                </Link>
+    <span>
+        Need access? Contact your administrator.
+    </span>
 
-              </div>
+</div>
 
             </form>
 

@@ -1,0 +1,98 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    font-family:"Inter",sans-serif;
+
+    background:#071321;
+
+    color:#fff;
+
+    overflow-x:hidden;
+
+}
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+button{
+
+    font-family:inherit;
+
+    cursor:pointer;
+
+}
+
+input,
+button,
+textarea,
+select{
+
+    outline:none;
+
+    border:none;
+
+}
+
+img{
+
+    max-width:100%;
+
+    display:block;
+
+}
+
+:root{
+
+    --primary:#2563EB;
+
+    --primary-light:#38BDF8;
+
+    --background:#071321;
+
+    --surface:rgba(12,20,38,.42);
+
+    --surface-solid:#101B2D;
+
+    --border:rgba(255,255,255,.08);
+
+    --text:#FFFFFF;
+
+    --text-secondary:rgba(255,255,255,.70);
+
+    --success:#22C55E;
+
+    --warning:#F59E0B;
+
+    --danger:#EF4444;
+
+    --radius-sm:12px;
+
+    --radius-md:18px;
+
+    --radius-lg:28px;
+
+    --shadow-card:0 20px 60px rgba(0,0,0,.35);
+
+    --transition:.30s ease;
+}
